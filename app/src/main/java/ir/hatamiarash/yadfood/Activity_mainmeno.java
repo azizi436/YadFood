@@ -92,7 +92,7 @@ public class Activity_mainmeno extends AppCompatActivity implements Refresh {
         }
         
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("یاد فود‌ !");
+        toolbar.setTitle("یاد فود‌ :)");
         setSupportActionBar(toolbar);
         //item haye asli dar menu
         PrimaryDrawerItem item_home = new PrimaryDrawerItem().withIdentifier(1).withName("پروفایل");
