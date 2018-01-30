@@ -43,7 +43,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 + KEY_REACH + " TEXT"
                 + ")";
         db.execSQL(Query);
-        Log.d(TAG, "Database table created - onCreate");
     }
 
     // drop and recreate table
@@ -65,7 +64,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 + ")";
         db.execSQL(Query);
         db.close();
-        Log.d(TAG, "Database table created - Manual");
     }
 
     //bargozari data
@@ -94,7 +92,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 + ")";
         db.execSQL(query);
         db.close();
-        Log.d(TAG, title + " inserted into database");
     }
 
     //geraftan data
