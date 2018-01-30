@@ -47,13 +47,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
         holder.text.setText("هشدار " + String.valueOf(position + 1));
         holder.name.setText(Model.getName());
         holder.desc.setText(Model.getDesc());
-        holder.time.setText(Model.getTime());
+        holder.time.setText("چهارشنبه " + Model.getTime());
         holder.id.setText(Model.getID());
         
         _Id = holder.id.getText().toString();//bad az tanzim id ra b _Id midim ta betonim toye on time database ro update konim
         givetime = holder.time.getText().toString();
-        
-        // Log.w("تایم",String.valueOf(givetime));
         
         if (Model.getReach().equals("1")) {
             holder.image.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_alarm_on));
@@ -63,7 +61,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Log.e("DELETE", "S");
                 db.deleteAlarm(holder.id.getText().toString());
                 ((Refresh) mContext).a();
             }

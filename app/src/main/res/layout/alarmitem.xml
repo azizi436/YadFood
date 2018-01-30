@@ -36,6 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    android:tint="@color/md_black_1000"
                     app:srcCompat="@drawable/ic_check"/>
 
                 <ImageView
@@ -43,6 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    android:tint="@color/md_black_1000"
                     app:srcCompat="@drawable/ic_cancel"/>
             </LinearLayout>
 
@@ -98,7 +100,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerInParent="true"
                 android:text="TextView"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/id"
