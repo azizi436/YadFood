@@ -1,0 +1,27 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textViewStyle">@style/Style</item>
+        <item name="android:editTextStyle">@style/Style2</item>
+        <item name="android:buttonStyle">@style/Style3</item>
+        <item name="android:colorForeground">#FFF</item>
+        <item name="android:textColorPrimary">#FFF</item>
+    </style>
+
+    <style name="Style" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">fonts/sans.ttf</item>
+    </style>
+
+    <style name="Style2" parent="android:Widget.Holo.Light.EditText">
+        <item name="fontPath">fonts/sans.ttf</item>
+    </style>
+
+    <style name="Style3" parent="android:Widget.Holo.Light.Button">
+        <item name="fontPath">fonts/sans.ttf</item>
+    </style>
+</resources>
