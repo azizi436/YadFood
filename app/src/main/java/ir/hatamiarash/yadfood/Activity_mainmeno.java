@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -53,6 +54,8 @@ public class Activity_mainmeno extends AppCompatActivity implements Refresh {
     SQLiteHandler2 dc;
     SessionManager session;
     private Drawer result = null;
+    
+    private long back_pressed;
     
     
     @Override
@@ -202,7 +205,6 @@ public class Activity_mainmeno extends AppCompatActivity implements Refresh {
     public void refresh() {
         llist.clear();
         fetchAlarms();
-        Log.w("list", String.valueOf(llist.size()));
         if (llist.size() == 0) {
             recyclerView.setVisibility(View.GONE);
             empty.setVisibility(View.VISIBLE);
@@ -236,5 +238,17 @@ public class Activity_mainmeno extends AppCompatActivity implements Refresh {
             result.openDrawer();
         }
         return super.onOptionsItemSelected(item);
+    }
+    
+    @Override
+    public void onBackPressed() {
+        if (back_pressed + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+            android.os.Process.killProcess(android.os.Process.myPid());
+        } else {
+            result.closeDrawer();
+            Toast.makeText(getApplicationContext(), "برای خروج دوباره کلیک کنید", Toast.LENGTH_SHORT).show();
+        }
+        back_pressed = System.currentTimeMillis();
     }
 }
