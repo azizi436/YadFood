@@ -171,7 +171,7 @@ public class Activity_mainmeno extends AppCompatActivity implements Refresh {
                     break;
 
                 case "15":
-                    uniname = "http://food.tums.ac.ir";//pezeshki teh
+                    uniname = "http://food.tums.ac.ir"; //pezeshki teh
                     break;
 
                 case "16":
