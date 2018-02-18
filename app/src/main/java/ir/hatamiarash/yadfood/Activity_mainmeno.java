@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -202,10 +203,10 @@ public class Activity_mainmeno extends AppCompatActivity implements Refresh {
         toolbar.setTitle("ياد فود‌ :)");
         setSupportActionBar(toolbar);
         //item haye asli dar menu
-        PrimaryDrawerItem item_home = new PrimaryDrawerItem().withIdentifier(1).withName("پروفايل");
-        PrimaryDrawerItem item_register = new PrimaryDrawerItem().withIdentifier(2).withName("راهنماي استفاده");
-        PrimaryDrawerItem item_about = new PrimaryDrawerItem().withIdentifier(3).withName("درباره ي ما");
-        PrimaryDrawerItem item_reserve = new PrimaryDrawerItem().withIdentifier(4).withName("رزرو غذا");
+        PrimaryDrawerItem item_home = new PrimaryDrawerItem().withIdentifier(1).withName("پروفايل").withIcon(FontAwesome.Icon.faw_graduation_cap);
+        PrimaryDrawerItem item_register = new PrimaryDrawerItem().withIdentifier(2).withName("راهنماي استفاده").withIcon(FontAwesome.Icon.faw_cogs);;
+        PrimaryDrawerItem item_about = new PrimaryDrawerItem().withIdentifier(3).withName("درباره ي ما").withIcon(FontAwesome.Icon.faw_suitcase);
+        PrimaryDrawerItem item_reserve = new PrimaryDrawerItem().withIdentifier(4).withName("رزرو غذا").withIcon(FontAwesome.Icon.faw_chart_pie);
         //  PrimaryDrawerItem item_send = new PrimaryDrawerItem().withIdentifier(5).withName("ارسال به دوستان");
 
         //item haye farie menu
