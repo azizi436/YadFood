@@ -5,14 +5,15 @@ package model;
  */
 
 public class Alarmitem {
-    String name, desc, time, reach, id;
+    String name, desc, time, reach, id, day;
 
-    public Alarmitem(String id, String name, String onvan, String time, String reach) {
+    public Alarmitem(String id, String name, String onvan, String time, String reach, String day) {
         this.name = name;
         desc = onvan;
         this.time = time;
         this.reach = reach;
         this.id = id;
+        this.day = day;
     }
 
     public String getName() {
@@ -33,5 +34,9 @@ public class Alarmitem {
 
     public String getID() {
         return this.id;
+    }
+
+    public String getDay() {
+        return this.day;
     }
 }

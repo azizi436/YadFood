@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Vibrator;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -36,11 +35,12 @@ public class Alarmm extends WakefulBroadcastReceiver {
         List<String> list = new ArrayList<>();
 
         list = db.getAlarm();
-        for (int i = 0; i < (list.size() / 5); i++) {
-            String id = list.get(i * 5);
-            String desc = list.get(i * 5 + 2);
-            String time = list.get(i * 5 + 3);
-            String reach = list.get(i * 5 + 4);
+        for (int i = 0; i < (list.size() / 6); i++) {
+            String id = list.get(i * 6);
+            String desc = list.get(i * 6 + 2);
+            String time = list.get(i * 6 + 3);
+            String reach = list.get(i * 6 + 4);
+            String day = list.get(i * 6 + 5);
             //Log.e("time of database",String.valueOf(time));
             //Log.e("time of phone ", String.valueOf(time2));
 
@@ -80,9 +80,10 @@ public class Alarmm extends WakefulBroadcastReceiver {
             Calendar Emrooz = Calendar.getInstance();
             int currentday = Emrooz.get(Calendar.DAY_OF_WEEK);
             Log.w("emrooz=", String.valueOf(currentday));
+            Log.w("roz data bsse=",day);
 
             //todo --->***agar reach.equals("1") b if ezafhe shavad hoshdar tekrAR nemishavad***
-            if (time.equals(curtime) && currentday == 4) {
+            if (time.equals(curtime) && String.valueOf(currentday).equals(day)) {
 
                 /*Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
                 ringtone = RingtoneManager.getRingtone(context, uri);*/
@@ -95,7 +96,7 @@ public class Alarmm extends WakefulBroadcastReceiver {
                 // ringtone.play();
                 context.startActivity(in);
                 // vibrator.vibrate(20000);
-                Toast.makeText(context, "وقتشه غذاتو رزرو کنی!", Toast.LENGTH_LONG).show();
+
 
             }
 

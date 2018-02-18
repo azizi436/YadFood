@@ -8,7 +8,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by a on 24/01/2018.
@@ -21,11 +20,11 @@ public class SQLiteHandler2 extends SQLiteOpenHelper {
     //name jadval
     private static final String TABLE = "profile";
     // Setup Table Columns name****ijad soton hayeh jadid
-    //private static final String KEY_ID = "id";
+    //private static final String KEY_UNI = "uni";
     private static final String KEY_TITLE = "title";
     private static final String KEY_DESC = "desc";
     private static final String KEY_PASS = "pass";
-
+    private static final String KEY_UNI = "uni";
 
     public SQLiteHandler2(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,10 +35,11 @@ public class SQLiteHandler2 extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String Query = "CREATE TABLE " + TABLE + " ("
-                //+ KEY_ID + " TEXT, "
+                //  + KEY_UNI + " TEXT, "
                 + KEY_TITLE + " TEXT, "
                 + KEY_DESC + " TEXT, "
                 + KEY_PASS + " TEXT, "
+                + KEY_UNI + " TEXT"
                 + ")";
         db.execSQL(Query);
         Log.d(TAG, "Database table created - onCreate");
@@ -56,10 +56,11 @@ public class SQLiteHandler2 extends SQLiteOpenHelper {
     public void CreateTable() {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "CREATE TABLE IF NOT EXISTS " + TABLE + " ("
-                //+ KEY_ID + " TEXT, "
+                // + KEY_UNI + " TEXT, "
                 + KEY_TITLE + " TEXT, "
                 + KEY_DESC + " TEXT, "
-                + KEY_PASS + " TEXT"
+                + KEY_PASS + " TEXT, "
+                + KEY_UNI + " TEXT"
                 + ")";
         db.execSQL(Query);
         db.close();
@@ -67,7 +68,7 @@ public class SQLiteHandler2 extends SQLiteOpenHelper {
     }
 
     //bargozari data
-    public void addmember(String title, String desc, String pass) {
+    public void addmember(String title, String desc, String pass, String uni) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         //aval ersal mikonim
@@ -75,25 +76,50 @@ public class SQLiteHandler2 extends SQLiteOpenHelper {
         desc = "'" + desc + "'";
         // long temp = (Integer.valueOf(String.valueOf(time)));
         pass = "'" + pass + "'";
+        uni = "'" + uni + "'";
         //String id = "'" + UUID.randomUUID().toString() + "'";
         //jaygozary mikonim
         String query = "INSERT OR REPLACE INTO " + TABLE + " ("
                 //+ KEY_ID + ", "
                 + KEY_TITLE + ", "
                 + KEY_DESC + ", "
-                + KEY_PASS
+                + KEY_PASS + ", "
+                + KEY_UNI
 
                 + ") VALUES ("
                 //+ id + ", "
                 + title + ", "
                 + desc + ", "
-                + pass
+                + pass +", "
+                + uni
                 + ")";
 
         db.execSQL(query);
         db.close();
         Log.d(TAG, title + " inserted into database");
     }
+
+
+    /*public void adduni(String uniname) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //aval ersal mikonim
+        uniname = "'" + uniname + "'";
+        //jaygozary mikonim
+        String query = "INSERT OR REPLACE INTO " + TABLE + " ("
+                //+ KEY_ID + ", "
+                + KEY_UNI
+
+                + ") VALUES ("
+                //+ id + ", "
+                + uniname
+                + ")";
+
+        db.execSQL(query);
+        db.close();
+        Log.d(TAG, "uni sabt shod dar data base" + " inserted into database");
+    }*/
+
 
     //geraftan data
     public List<String> getmember() {
@@ -104,10 +130,10 @@ public class SQLiteHandler2 extends SQLiteOpenHelper {
         cursor.moveToFirst();
         if (cursor.getCount() > 0) {
             while (!cursor.isAfterLast()) {
-                //item.add(cursor.getString(cursor.getColumnIndex(KEY_ID)));
                 item.add(cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
                 item.add(cursor.getString(cursor.getColumnIndex(KEY_DESC)));
                 item.add(cursor.getString(cursor.getColumnIndex(KEY_PASS)));
+                item.add(cursor.getString(cursor.getColumnIndex(KEY_UNI)));
                 cursor.moveToNext();
             }
         }
@@ -116,7 +142,18 @@ public class SQLiteHandler2 extends SQLiteOpenHelper {
         return item;
     }
 
-    public void updateReach(String titile,String desc,String pass) {
+   /* public void updateuni(String uniname) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "UPDATE " + TABLE + " SET "
+                + KEY_UNI + "=" + uniname;
+        db.execSQL(query);
+        db.close();
+    }*/
+
+
+    public void updateReach(String titile, String desc, String pass) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         titile = "'" + titile + "'";
@@ -131,8 +168,9 @@ public class SQLiteHandler2 extends SQLiteOpenHelper {
         db.execSQL(query);
         db.close();
     }
-//inja bayad fekr konam argoman bedim!!!!eroor
-    public boolean deletemember(String title,String desc,String pass) {
+
+    //inja bayad fekr konam argoman bedim!!!!eroor
+    public boolean deletemember(String title, String desc, String pass) {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             title = "'" + title + "'";
@@ -148,7 +186,8 @@ public class SQLiteHandler2 extends SQLiteOpenHelper {
         }
         return true;
     }
-//hazfe hame
+
+    //hazfe hame
     public boolean deletemember2() {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
@@ -160,10 +199,10 @@ public class SQLiteHandler2 extends SQLiteOpenHelper {
         }
         return true;
     }
-    public void deleteAll()
-    {
+
+    public void deleteAll() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE,null,null);
+        db.delete(TABLE, null, null);
 
        /* db.execSQL("delete * from " + TABLE);
         db.execSQL("TRUNCATE table " + TABLE);*/

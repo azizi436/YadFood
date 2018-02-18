@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ir.mrazizi77.alarm.MainActivity">
+    tools:context="ir.hatamiarash.yadfood.MainActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle"
@@ -18,7 +18,7 @@
     <LinearLayout
         android:id="@+id/empty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="#ffffff"
         android:baselineAligned="false"
         android:orientation="vertical"
@@ -38,7 +38,7 @@
                 android:gravity="center|bottom"
                 android:lineSpacingExtra="-1dp"
                 android:text="زمان بندی جدید"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -57,7 +57,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -69,10 +69,10 @@
                         android:id="@+id/activity_main_arrow"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:layout_marginBottom="50dp"
+                        android:layout_marginBottom="40dp"
                         android:layout_marginEnd="75dp"
                         android:layout_marginRight="75dp"
-                        android:background="@drawable/line"/>
+                        app:srcCompat="@drawable/line" />
                 </RelativeLayout>
             </LinearLayout>
         </RelativeLayout>
@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"/>
+        android:theme="?attr/actionBarTheme" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/b"
@@ -96,10 +96,12 @@
         android:layout_alignParentLeft="false"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="false"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
         android:clickable="true"
         android:focusable="true"
         app:fabSize="normal"
-        app:srcCompat="@drawable/ic_add"/>
+        app:srcCompat="@drawable/ic_addnew" />
 
 </RelativeLayout>

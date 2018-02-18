@@ -36,16 +36,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:tint="@color/md_black_1000"
-                    app:srcCompat="@drawable/ic_check"/>
+                    android:tint="@color/md_green_A400"
+                    app:srcCompat="@drawable/ic_check" />
 
                 <ImageView
                     android:id="@+id/image2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:tint="@color/md_black_1000"
-                    app:srcCompat="@drawable/ic_cancel"/>
+                    android:tint="@color/md_red_A400"
+                    app:srcCompat="@drawable/ic_cancel" />
+
+                <TextView
+                    android:id="@+id/day"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <TextView

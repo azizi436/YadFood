@@ -8,7 +8,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +25,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     private static final String KEY_DESC = "desc";
     private static final String KEY_TIME = "time";
     private static final String KEY_REACH = "reach";
+    private static final String KEY_DAY = "day";
+
 
     public SQLiteHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -40,7 +41,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 + KEY_TITLE + " TEXT, "
                 + KEY_DESC + " TEXT, "
                 + KEY_TIME + " TEXT, "
-                + KEY_REACH + " TEXT"
+                + KEY_REACH + " TEXT,"
+                + KEY_DAY + " TEXT"
+
                 + ")";
         db.execSQL(Query);
     }
@@ -60,21 +63,24 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 + KEY_TITLE + " TEXT, "
                 + KEY_DESC + " TEXT, "
                 + KEY_TIME + " TEXT,"
-                + KEY_REACH + " TEXT"
+                + KEY_REACH + " TEXT,"
+                + KEY_DAY + " TEXT"
+
                 + ")";
         db.execSQL(Query);
         db.close();
     }
 
     //bargozari data
-    public void addAlarm(String title, String desc, String time, String reach) {
+    public void addAlarm(String title, String desc, String time, String reach, String day) {
         SQLiteDatabase db = this.getWritableDatabase();
         //aval ersal mikonim
         title = "'" + title + "'";
         desc = "'" + desc + "'";
-       // long temp = (Integer.valueOf(String.valueOf(time)));
+        // long temp = (Integer.valueOf(String.valueOf(time)));
         time = "'" + time + "'";
         reach = "'" + reach + "'";
+        day = "'" + day + "'";
         String id = "'" + UUID.randomUUID().toString() + "'";
         //jaygozary mikonim
         String query = "INSERT OR REPLACE INTO " + TABLE + " ("
@@ -82,13 +88,15 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 + KEY_TITLE + ", "
                 + KEY_DESC + ", "
                 + KEY_TIME + ","
-                + KEY_REACH
+                + KEY_REACH + ","
+                + KEY_DAY
                 + ") VALUES ("
                 + id + ", "
                 + title + ", "
                 + desc + ", "
                 + time + ","
-                + reach
+                + reach + ","
+                + day
                 + ")";
         db.execSQL(query);
         db.close();
@@ -108,6 +116,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 item.add(cursor.getString(cursor.getColumnIndex(KEY_DESC)));
                 item.add(cursor.getString(cursor.getColumnIndex(KEY_TIME)));
                 item.add(cursor.getString(cursor.getColumnIndex(KEY_REACH)));
+                item.add(cursor.getString(cursor.getColumnIndex(KEY_DAY)));
                 cursor.moveToNext();
             }
         }

@@ -11,11 +11,13 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +38,8 @@ public class Ontime extends AppCompatActivity implements Refresh {
     SQLiteHandler db;
     SQLiteHandler2 dc;
     static public String matngir = "";
-
+    private String uniname;
+    private String choose;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,15 +56,109 @@ public class Ontime extends AppCompatActivity implements Refresh {
         list = dc.getmember();
         int i = 0;
         esm=list.get(i).toString();
+        choose=list.get(3);
         barname = (TextView) findViewById(R.id.t1);
         barname.setVisibility(View.VISIBLE);
-      //  if(m.equals(null))
+        //  if(m.equals(null))
 
 
-            barname.setText(esm +" غذاتو رزرو کن !!");
+        switch (choose) {
+            case "1": {
+                uniname = "http://food.malayeru.ac.ir";//malayer
+                Log.w("case1=", uniname);
+            }
+            break;
+            case "2": {
+                uniname = "http://dining.sharif.ir";//sharif
+                Log.w("case2=", uniname);
+            }
+            break;
+            case "3": {
+                uniname = "http://dinig1.ut.ac.ir";//tehran
+                Log.w("case3=", uniname);
+            }
+            break;
+            case "4": {
+                uniname = "http://food.isu.ac.ir";//emam sadegh
+                Log.w("case4=", uniname);
+            }
+            break;
+            case "5": {
+                uniname = "http://refahi.basu.ac.ir/";//boali hmd
+                Log.w("case5=", uniname);
+            }
+            break;
+            case "6": {
+                uniname = "https://food.razi.ac.ir/";//razi
+                Log.w("case6=", uniname);
+            }
+            break;
+            case "7": {
+                uniname = "http://dining.iut.ac.ir";//sanaty esf
+                Log.w("case7=", uniname);
+            }
+            break;
+            case "8":
+                uniname = "https://dining.sbu.ac.ir";//beheshti teh
+                break;
 
-      //  else
-       // { barname.setText(m);}
+            case "9":
+                uniname = "http://samad.aut.ac.ir";//sanati amirkabir
+                break;
+
+            case "10":
+                uniname = "http://foodstudent.atu.ac.ir/";// alameh tabatabai
+                break;
+
+            case "11":
+                uniname = "http://food.scu.ac.ir/";//chamran
+                break;
+
+            case "12":
+                uniname = "http://jeton.umsu.ac.ir/";//pezehki oromieh
+                break;
+
+            case "13":
+                uniname = "http://stufood.mums.ac.ir";//pezeshki mashhad
+                break;
+
+            case "14":
+                uniname = "http://nutrition.tbzmed.ac.ir/";//pezeshki tabriz
+                break;
+
+            case "15":
+                uniname = "http://food.tums.ac.ir";//pezeshki teh
+                break;
+
+            case "16":
+                uniname="http://self.mui.ac.ir/";//olom pezeshki esfahan
+
+                break;
+            case "17":
+                uniname = "http://nd.lu.ac.ir/";//lorestan
+                break;
+            case "18":
+                uniname="http://food.uok.ac.ir";//sanandaj
+                break;
+            case "19":
+                uniname="http://31.130.180.118";//borojerd
+                break;
+            case "20":
+                uniname = "http://jeton.araku.ac.ir";//arak
+
+        }
+
+
+
+
+
+
+
+        barname.setText(esm +" غذاتو رزرو کن !!");
+        Toast.makeText(getApplicationContext(), esm+" وقتشه غذاتو رزرو کنی! ", Toast.LENGTH_LONG).show();
+
+        //  else
+        // { barname.setText(m);}
 
 
         KeyguardManager manager = (KeyguardManager) this.getSystemService(Context.KEYGUARD_SERVICE);
@@ -84,8 +181,8 @@ public class Ontime extends AppCompatActivity implements Refresh {
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         ringtone = RingtoneManager.getRingtone(getApplicationContext(), uri);
         ringtone.play();
-        long[] pattern = {1000, 2000, 1000, 3000,1000,2000};
-       // v.vibrate(4000);
+        long[] pattern = {1000, 1500, 1000, 1500,1000,1500};
+        // v.vibrate(4000);
         v.vibrate(pattern, -1);
 
 
@@ -121,7 +218,7 @@ public class Ontime extends AppCompatActivity implements Refresh {
         site.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://food.malayeru.ac.ir"));
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(uniname));
                 startActivity(i);
                 finish();
             }
