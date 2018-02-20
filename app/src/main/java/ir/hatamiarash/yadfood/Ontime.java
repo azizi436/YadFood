@@ -2,6 +2,9 @@ package ir.hatamiarash.yadfood;
 
 
 import android.app.KeyguardManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Ringtone;
@@ -10,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -156,7 +160,7 @@ public class Ontime extends AppCompatActivity implements Refresh {
 
         barname.setText(esm +" غذاتو رزرو کن !!");
         Toast.makeText(getApplicationContext(), esm+" وقتشه غذاتو رزرو کنی! ", Toast.LENGTH_LONG).show();
-
+        notification(esm+"غذاتو رزرو کن","اگه هنوز غذاتو رزرو نکردی اینجا کلیک کن");
         //  else
         // { barname.setText(m);}
 
@@ -230,6 +234,33 @@ public class Ontime extends AppCompatActivity implements Refresh {
 
 
     private Window wind;
+
+
+    public void notification(String title, String message) {
+        Intent in = new Intent(Intent.ACTION_VIEW, Uri.parse(uniname));
+        PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(),
+                (int) System.currentTimeMillis(), in, 0);
+
+        NotificationCompat.Builder b = new NotificationCompat.Builder(getApplicationContext());
+        b.setAutoCancel(true)
+                //.setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setBadgeIconType(R.mipmap.ic_launcher)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.ic_launcher,3)
+                .setTicker("یادفود :)")
+                .setContentTitle(title)
+                .setContentText(message)
+                .setContentIntent(pIntent);
+
+        //.setSubText("متن");
+        //.setDeleteIntent()
+        //.setContentInfo("سلام");
+
+        b.build().flags |= Notification.FLAG_AUTO_CANCEL;
+        NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(0, b.build());
+    }
+
 
     @Override
     protected void onResume() {

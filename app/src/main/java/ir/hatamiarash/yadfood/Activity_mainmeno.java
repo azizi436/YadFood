@@ -1,10 +1,14 @@
 package ir.hatamiarash.yadfood;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -89,6 +93,7 @@ public class Activity_mainmeno extends AppCompatActivity implements Refresh {
 
         if (session.isFirst()) {
 
+notification("به یاد فود خوش اومدی :)","لطفا قبل از شروع راهنمایی استفاده رو بخون !!");
             db.CreateTable();
             dc.CreateTable();
             Intent start = new Intent(Activity_mainmeno.this, Activity_Profile.class);
@@ -331,6 +336,32 @@ public class Activity_mainmeno extends AppCompatActivity implements Refresh {
     }
 
     public static Activity_mainmeno t;
+
+    public void notification(String title, String message) {
+     Intent intent = new Intent(getApplicationContext(), Activity_desc.class);
+            PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(),
+                    (int) System.currentTimeMillis(), intent, 0);
+
+        NotificationCompat.Builder b = new NotificationCompat.Builder(getApplicationContext());
+        b.setAutoCancel(true)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setBadgeIconType(R.mipmap.ic_launcher)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.ic_launcher,3)
+                .setTicker("یادفود :)")
+                .setContentTitle(title)
+                .setContentText(message)
+                .setContentIntent(pIntent);
+                //.setSubText("متن");
+                //.setContentInfo("سلام");
+
+
+        b.build().flags |= Notification.FLAG_AUTO_CANCEL;//hazf notification ba click kardan
+        NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(0, b.build());
+    }
+
+
 
     @Override
     protected void attachBaseContext(Context newBase) {

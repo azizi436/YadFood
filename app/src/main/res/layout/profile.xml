@@ -146,7 +146,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:hint="رمز کارت"
+            android:hint="رمز کارت(اختیاری)"
             android:inputType="number"
             android:textColor="#000"
             android:textColorHint="@color/md_blue_grey_300"
