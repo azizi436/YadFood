@@ -158,9 +158,9 @@ public class Ontime extends AppCompatActivity implements Refresh {
 
 
 
-        barname.setText(esm +" غذاتو رزرو کن !!");
+        barname.setText(esm +" غذاتو رزرو کن !! ");
         Toast.makeText(getApplicationContext(), esm+" وقتشه غذاتو رزرو کنی! ", Toast.LENGTH_LONG).show();
-        notification(esm+"غذاتو رزرو کن","اگه هنوز غذاتو رزرو نکردی اینجا کلیک کن");
+        notification(esm+" غذاتو رزرو کن "," اگه هنوز غذاتو رزرو نکردی اینجا کلیک کن ");
         //  else
         // { barname.setText(m);}
 
@@ -184,6 +184,7 @@ public class Ontime extends AppCompatActivity implements Refresh {
         onResume();
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         ringtone = RingtoneManager.getRingtone(getApplicationContext(), uri);
+        if(!ringtone.isPlaying())
         ringtone.play();
         long[] pattern = {1000, 1500, 1000, 1500,1000,1500};
         // v.vibrate(4000);

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import helper.SQLiteHandler;
@@ -41,10 +42,6 @@ public class Alarmm extends WakefulBroadcastReceiver {
             String time = list.get(i * 6 + 3);
             String reach = list.get(i * 6 + 4);
             String day = list.get(i * 6 + 5);
-            //Log.e("time of database",String.valueOf(time));
-            //Log.e("time of phone ", String.valueOf(time2));
-
-
 
           /*  Calendar calendar = Calendar.getInstance();
             int day = calendar.get(Calendar.DAY_OF_WEEK);
@@ -62,7 +59,7 @@ public class Alarmm extends WakefulBroadcastReceiver {
             }*/
 
 
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+3:30"));//geraftan time goshi
+         /*   Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+3:30"));//geraftan time goshi
             Date currentLocalTime = cal.getTime();
             DateFormat date = new SimpleDateFormat("HH:mm a");
 // you can get seconds by adding  "...:ss" to it
@@ -72,18 +69,29 @@ public class Alarmm extends WakefulBroadcastReceiver {
                 curtime = localTime.substring(0, 4);
             } else {
                 curtime = localTime.substring(0, 5);
-            }
+            }*/
 
-            Log.w("TIME", String.valueOf(curtime));
-            Log.w("Dasti", time);
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+3:30"));//geraftan time goshi
+            Date currentLocalTime = cal.getTime();
+            DateFormat date = new SimpleDateFormat("HH");
+            DateFormat date2 = new SimpleDateFormat("mm");
+            String hour = date.format(currentLocalTime);
+            String minute = date2.format(currentLocalTime);
+
+            curtime=hour+":"+minute;
+           int currenttime=Integer.valueOf(hour+minute);
+            Log.w("TIME", String.valueOf(currenttime));
+           time= time.substring(0,2)+time.substring(3,5);//kharej kardan ":" az time
+           int originaltime=Integer.valueOf(time);
+
+            Log.w("Dasti", String.valueOf(originaltime));
             Log.w("reach=", reach);
             Calendar Emrooz = Calendar.getInstance();
             int currentday = Emrooz.get(Calendar.DAY_OF_WEEK);
             Log.w("emrooz=", String.valueOf(currentday));
             Log.w("roz data bsse=",day);
-
             //todo --->***agar reach.equals("1") b if ezafhe shavad hoshdar tekrAR nemishavad***
-            if (time.equals(curtime) && String.valueOf(currentday).equals(day)) {
+            if (originaltime==currenttime && String.valueOf(currentday).equals(day)) {
 
                 /*Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
                 ringtone = RingtoneManager.getRingtone(context, uri);*/

@@ -2,10 +2,13 @@ package ir.hatamiarash.yadfood;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,6 +32,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import helper.SQLiteHandler;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -49,10 +54,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     Spinner spinner2;
     private static final String[] dayname = {"شنبه ها", "  یکشنبه ها", " دوشنبه ها", "سه شنبه ها", "چهارشنبه ها", "پنجشنبه ها", "جمعه ها"};
 
+    Handler handler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm2);
+
+
 
         Toolbar toolbar1 = findViewById(R.id.toolbar3);
         setSupportActionBar(toolbar1);
@@ -218,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         notificationIntent.putExtra("onetime", Boolean.TRUE);
         pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, 0);
-        long futureInMillis = System.currentTimeMillis() + result;
+       long futureInMillis = System.currentTimeMillis();
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Log.w("Start", String.valueOf(System.currentTimeMillis()));
 
@@ -227,7 +236,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        alarmManager.setRepeating(AlarmManager.RTC, futureInMillis, 50000, pendingIntent);
+      //  alarmManager.setRepeating(AlarmManager.RTC, futureInMillis, 30000, pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(),35000,pendingIntent);
 
         Intent mainmenu = new Intent(MainActivity.this, Activity_mainmeno.class);
         mainmenu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -253,9 +263,53 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         title.setText(time);
         TIME = time;
     }
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
+
+// Start the initial runnable task by posting through the handler
+
+
+    // Define the code block to be executed
+/*    private Runnable runnableCode = new Runnable() {
+        @Override
+        public void run() {
+
+            // Do something here on the main thread
+            Toast.makeText(getApplicationContext(),"salam",Toast.LENGTH_LONG);
+            Log.d("Handlers", "Called on main threadmmmmm");
+            Log.w("Handlers", "Called on main1");
+            // Repeat this the same runnable code block again another 2 seconds
+            // 'this' is referencing the Runnable object
+            handler.postDelayed(this, 2000);
+        }
+    };
+}*/
+
+    /*
+    public void callAsynchronousTask() {
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+        TimerTask doAsynchronousTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        try {
+                            Toast.makeText(getApplicationContext(),"salam",Toast.LENGTH_SHORT);
+                            Intent intent = new Intent(getApplicationContext(), Checker_service.class);
+                            startService(intent);
+
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+            }
+        };
+        timer.schedule(doAsynchronousTask, 0, 1000); //execute in every 1000 ms
+    }
+}*/
+

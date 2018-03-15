@@ -43,6 +43,8 @@
         <activity android:name=".Activity_desc"/>
         <activity android:name=".Ontime"/>
 
+       <!-- <service android:name=".Checker_service"/>-->
+
         <activity android:name=".Activity_mainmeno">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -50,6 +52,16 @@
             </intent-filter>
 
         </activity>
+
+
+        <service
+            android:name=".Checker_service"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
 
         <receiver android:name=".Alarmm">
             <intent-filter>
