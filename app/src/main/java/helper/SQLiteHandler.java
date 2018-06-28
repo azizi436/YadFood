@@ -48,7 +48,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.execSQL(Query);
     }
 
-    // drop and recreate table
+    // drop and recreate table...hazf table
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE);
@@ -104,6 +104,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     //geraftan data
     public List<String> getAlarm() {
+
         List<String> item = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         String Query = "SELECT * FROM " + TABLE;
@@ -131,6 +132,17 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         id = "'" + id + "'";
         String query = "UPDATE " + TABLE + " SET "
                 + KEY_REACH + "=" + '0'
+                + " WHERE " + KEY_ID + "=" + id;
+        db.execSQL(query);
+        db.close();
+    }
+
+    public void register(String id) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        id = "'" + id + "'";
+        String query = "UPDATE " + TABLE + " SET "
+                + KEY_REACH + "=" + '1'
                 + " WHERE " + KEY_ID + "=" + id;
         db.execSQL(query);
         db.close();

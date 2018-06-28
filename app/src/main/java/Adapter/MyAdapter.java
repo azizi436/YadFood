@@ -1,20 +1,28 @@
 package Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import Interface.Refresh;
 import helper.SQLiteHandler;
+import ir.hatamiarash.yadfood.Activity_mainmeno;
+import ir.hatamiarash.yadfood.Edit_Alarm;
 import ir.hatamiarash.yadfood.R;
+import lib.kingja.switchbutton.SwitchMultiButton;
 import model.Alarmitem;
 
 /**
@@ -77,9 +85,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
         if (Model.getReach().equals("1")) {
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
             holder.image.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_alarm_on));
+            holder.mSwitchMultiButton.setSelectedTab(0);
         } else {
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
             holder.image.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_tik));
+            holder.mSwitchMultiButton.setVisibility(View.VISIBLE);
+            holder.mSwitchMultiButton.setSelectedTab(1);
+
         }
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +100,32 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
                 ((Refresh) mContext).a();
             }
         });
+
+        holder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent t = new Intent(mContext, Edit_Alarm.class);
+               mContext.startActivity(t);
+
+            }
+        });
+
+
+        holder.mSwitchMultiButton.setText("فعال", "غیرفعال").setOnSwitchListener(new SwitchMultiButton.OnSwitchListener() {
+            @Override
+            public void onSwitch(int position, String tabText) {
+                if(position==0)
+                { Log.w("position=",String.valueOf(position));
+              db.register(_Id);}
+
+                if(position==1)
+                {
+                    db.updateReach(_Id);
+                    Log.w("position=",String.valueOf(position));
+                }
+            }
+        });
+
     }
 
     @Override
@@ -107,7 +145,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name, desc, reach, time, id, text, day;
-        ImageView image, delete;
+        ImageView image, delete,edit;
+        SwitchMultiButton mSwitchMultiButton;
 
         MyViewHolder(View view) {
             super(view);
@@ -120,6 +159,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
             day = view.findViewById(R.id.day);
             image = view.findViewById(R.id.image1);
             delete = view.findViewById(R.id.image2);
+            edit=view.findViewById(R.id.Edit);
+            mSwitchMultiButton = view.findViewById(R.id.Switch);
         }
     }
 

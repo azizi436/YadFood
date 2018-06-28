@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -21,8 +22,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -41,6 +45,10 @@ import co.ronash.pushe.Pushe;
 import helper.SQLiteHandler;
 import helper.SQLiteHandler2;
 import model.Alarmitem;
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -57,7 +65,7 @@ public class Activity_mainmeno extends AppCompatActivity implements Refresh {
     ArrayList<Alarmitem> llist;
     SQLiteHandler db;
     SQLiteHandler2 dc;
-
+    Switch aSwitch;
     SessionManager session;
     private Drawer result = null;
 
@@ -87,21 +95,40 @@ public class Activity_mainmeno extends AppCompatActivity implements Refresh {
         button = findViewById(R.id.b);
         name = MainActivity.nametemp;
         onvan = MainActivity._VAR;
-
         recyclerView = findViewById(R.id.recycle);
         empty = findViewById(R.id.empty);
 
         if (session.isFirst()) {
 
-notification("به یاد فود خوش اومدی :)","لطفا قبل از شروع راهنمایی استفاده رو بخون !!");
+notification("به یادفود خوش اومدی :)","لطفا قبل از شروع راهنمایی استفاده رو بخون !!");
             db.CreateTable();
             dc.CreateTable();
             Intent start = new Intent(Activity_mainmeno.this, Activity_Profile.class);
             startActivity(start);
             finish();
 
-        }
 
+        }
+       /* Overlay overlay = new Overlay()
+                .setBackgroundColor(Color.parseColor("#AAFF0000"))
+                .disableClick(true)
+                .setStyle(Overlay.Style.CIRCLE)
+                ;
+
+        ToolTip toolTip = new ToolTip()
+                .setTitle("Next Button")
+                .setDescription("Click on Next button to proceed...")
+                .setTextColor(Color.parseColor("#bdc3c7"))
+                .setBackgroundColor(Color.parseColor("#e74c3c"))
+                .setShadow(true)
+                .setGravity(Gravity.TOP);
+
+        TourGuide mTourGuideHandler = TourGuide.init(this).with(TourGuide.Technique.CLICK)
+                .setPointer(new Pointer())
+                .setToolTip(toolTip)
+                .setOverlay(overlay)
+                .playOn(button)
+                ;*/
 
         String choose;
 
@@ -205,7 +232,7 @@ notification("به یاد فود خوش اومدی :)","لطفا قبل از ش�
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("ياد فود‌ :)");
+        toolbar.setTitle("يادفود‌ :)");
         setSupportActionBar(toolbar);
         //item haye asli dar menu
         PrimaryDrawerItem item_home = new PrimaryDrawerItem().withIdentifier(1).withName("پروفايل").withIcon(FontAwesome.Icon.faw_graduation_cap);
@@ -215,7 +242,7 @@ notification("به یاد فود خوش اومدی :)","لطفا قبل از ش�
         //  PrimaryDrawerItem item_send = new PrimaryDrawerItem().withIdentifier(5).withName("ارسال به دوستان");
 
         //item haye farie menu
-        SectionDrawerItem item_section = new SectionDrawerItem().withName("با ياد فود هميشه غذا داري :)");
+        SectionDrawerItem item_section = new SectionDrawerItem().withName("با يادفود هميشه غذا داري :)");
 
         IDrawerItem items[] = new IDrawerItem[]{
                 item_home,

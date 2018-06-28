@@ -1,10 +1,12 @@
 package ir.hatamiarash.yadfood;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Vibrator;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,18 +18,20 @@ import java.util.TimeZone;
 
 import helper.SQLiteHandler;
 
-//todo change wakfulbradcast
-public class Alarmm extends BroadcastReceiver {
+/**
+ * Created by MohammadReza on 4/27/2018.
+ */
 
-    String curtime;
-    Vibrator vibrator;
-
+public class AlarmReceiver extends BroadcastReceiver {
+    public AlarmReceiver(){}
     @Override
     public void onReceive(final Context context, Intent intent) {
-
-
-        check(context);
-        vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+       //Toast.makeText(context, "تکرار", Toast.LENGTH_LONG).show();
+       check(context);
+        Intent intent1=new Intent(context,AlarmReceiver.class);
+        final PendingIntent pendingIntent=PendingIntent.getBroadcast(context,0,intent1,0);
+        final AlarmManager alarmManager=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+20000,pendingIntent);
     }
 
     private void check(Context context) {
@@ -80,7 +84,11 @@ public class Alarmm extends BroadcastReceiver {
             //curtime=hour+":"+minute;
             int currenttime = Integer.valueOf(hour + minute);
             Log.w("TIME", String.valueOf(currenttime));
-            time = time.substring(0, 2) + time.substring(3, 5);//kharej kardan ":" az time
+
+           // time = time.substring(0, 2) + time.substring(3, 5);//kharej kardan ":" az time
+            String hour_db =time.substring(0, 2);
+            String Min_db=time.substring(3, 5);
+
             int originaltime = Integer.valueOf(time);
 
             Log.w("Dasti", String.valueOf(originaltime));
@@ -89,21 +97,17 @@ public class Alarmm extends BroadcastReceiver {
             int currentday = Emrooz.get(Calendar.DAY_OF_WEEK);
             Log.w("emrooz=", String.valueOf(currentday));
             Log.w("roz data bsse=", day);
+            Log.w("EKHTELAF=", String.valueOf(currenttime - originaltime));
+            //Toast.makeText(context, "تکرار", Toast.LENGTH_LONG).show();
+            Long TIME1=(Long.valueOf(hour)*8400)+(Long.valueOf(minute)*60);
+            Long TIME2=(Long.valueOf(hour_db)*8400)+(Long.valueOf(Min_db)*60);
 
+            Long EKHTELAF=TIME2-TIME1;
 
-            int EKHTELAF = (currenttime - originaltime);
-            int ok;
-            if (EKHTELAF <= 6 && EKHTELAF >= -6)
-                ok = 1;
-            else
-                ok = 0;
-
+            Toast.makeText(context, String.valueOf(EKHTELAF), Toast.LENGTH_LONG).show();
             Log.w("EKHTELAF=",String.valueOf(EKHTELAF));
-            Log.w("ok=", String.valueOf(ok));
-
-
             //todo --->***agar reach.equals("1") b if ezafhe shavad hoshdar tekrAR nemishavad***
-            if (((originaltime == currenttime) || ok == 1) && String.valueOf(currentday).equals(day) && reach.equals("1")) {
+            if (originaltime == currenttime || EKHTELAF == 1 && String.valueOf(currentday).equals(day)) {
 
                 /*Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
                 ringtone = RingtoneManager.getRingtone(context, uri);*/
@@ -124,4 +128,4 @@ public class Alarmm extends BroadcastReceiver {
         }
     }
 
-}
+    }

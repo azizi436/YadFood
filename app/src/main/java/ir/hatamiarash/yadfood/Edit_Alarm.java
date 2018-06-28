@@ -2,15 +2,12 @@ package ir.hatamiarash.yadfood;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -34,13 +31,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.Timer;
-import java.util.TimerTask;
 
+import Adapter.MyAdapter;
 import helper.SQLiteHandler;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+/**
+ * Created by MohammadReza on 5/3/2018.
+ */
+
+
+public class Edit_Alarm extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     int result = 1;
     static public int x = 1;
     AlarmManager alarmManager;
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     Spinner spinner2;
     private static final String[] dayname = {"شنبه ها", "  یکشنبه ها", " دوشنبه ها", "سه شنبه ها", "چهارشنبه ها", "پنجشنبه ها", "جمعه ها"};
 
-    Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +74,67 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         PersianCalendar persianCalendar = new PersianCalendar();
         TimePickerDialog datePickerDialog = TimePickerDialog.newInstance(
-                MainActivity.this,
+                Edit_Alarm.this,
                 persianCalendar.HOUR_OF_DAY,
                 persianCalendar.MINUTE,
                 true
         );
 
+        spinner2 = (Spinner) findViewById(R.id.spinner2);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(Edit_Alarm.this,
+                R.layout.day_spinner, dayname);
+
+        spinner2.setAdapter(adapter);
+
+
+        List<String> list = db.getAlarm();
+        for (int i = 0; i < (list.size() / 6); i++) {
+            String id = list.get(i * 6);
+            String title2 = list.get(i * 6 + 1);
+            String desc = list.get(i * 6 + 2);
+            String time = list.get(i * 6 + 3);
+            String reach = list.get(i * 6 + 4);
+            String day1 = list.get(i * 6 + 5);
+            if (MyAdapter._Id.equals(id)) {
+                String choose = day1;
+                Log.w("chooseeee=",choose);
+                title.setText(time);
+                datePickerDialog.setStartTime(Integer.valueOf(time.substring(0, 2)), Integer.valueOf(time.substring(3, 5)));
+                switch (choose) {
+                    case "1": {
+                        spinner2.setSelection(1);
+                    }
+                    break;
+                    case "2": {
+                        spinner2.setSelection(2);
+                    }
+                    break;
+                    case "3": {
+                        spinner2.setSelection(3);
+                    }
+                    break;
+                    case "4": {
+                        spinner2.setSelection(4);
+                    }
+                    break;
+                    case "5": {
+                        spinner2.setSelection(5);
+                    }
+                    break;
+                    case "6": {
+                        spinner2.setSelection(6);
+                    }
+                    break;
+                    case "7": {
+                        spinner2.setSelection(0);
+                    }
+                    break;
+                   /* case "7":
+                        spinner2.setSelection(7);
+                        break;*/
+                }
+            }
+        }
         datePickerDialog.setTitle("زمان هشدار");
         datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
         datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -96,14 +151,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         String hour = date.format(currentLocalTime);
         String minute = date2.format(currentLocalTime);
 
-        datePickerDialog.setStartTime(Integer.valueOf(hour), Integer.valueOf(minute));
 
-
-        spinner2 = (Spinner) findViewById(R.id.spinner2);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this,
-                R.layout.day_spinner, dayname);
-
-        spinner2.setAdapter(adapter);
 
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -146,11 +194,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         });
 
-        List<String> list = db.getAlarm();
-        if (!list.isEmpty()) {
-            for (int i = 0; i < (list.size() / 6); i++) {
+        List<String> list2 = db.getAlarm();
+        if (!list2.isEmpty()) {
+            for (int j = 0; j < (list.size() / 6); j++) {
 
-                day = list.get(i * 6 + 5);
+                day = list.get(j * 6 + 5);
 
             }
             switch (day) {
@@ -183,59 +231,61 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 }
             }
         }
+
 //tanzim click b roye title
-        title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PersianCalendar persianCalendar = new PersianCalendar();
-                TimePickerDialog datePickerDialog = TimePickerDialog.newInstance(
-                        MainActivity.this,
-                        persianCalendar.HOUR_OF_DAY,
-                        persianCalendar.MINUTE,
-                        true
-                );
+        title.setOnClickListener(new View.OnClickListener()
 
-                datePickerDialog.setTitle("زمان هشدار");
-                datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
-                datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        finish();
-                    }
-                });
+    {
+        @Override
+        public void onClick (View v) {
+            PersianCalendar persianCalendar = new PersianCalendar();
+            TimePickerDialog datePickerDialog = TimePickerDialog.newInstance(
+                    Edit_Alarm.this,
+                    persianCalendar.HOUR_OF_DAY,
+                    persianCalendar.MINUTE,
+                    true
+            );
 
-                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+3:30"));//geraftan time goshi
-                Date currentLocalTime = cal.getTime();
-                DateFormat date = new SimpleDateFormat("HH");
-                DateFormat date2 = new SimpleDateFormat("mm");
-                String hour = date.format(currentLocalTime);
-                String minute = date2.format(currentLocalTime);
+            datePickerDialog.setTitle("زمان هشدار");
+            datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
+            datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    finish();
+                }
+            });
 
-                datePickerDialog.setStartTime(Integer.valueOf(hour), Integer.valueOf(minute));
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+3:30"));//geraftan time goshi
+            Date currentLocalTime = cal.getTime();
+            DateFormat date = new SimpleDateFormat("HH");
+            DateFormat date2 = new SimpleDateFormat("mm");
+            String hour = date.format(currentLocalTime);
+            String minute = date2.format(currentLocalTime);
 
-            }
-        });
+            datePickerDialog.setStartTime(Integer.valueOf(hour), Integer.valueOf(minute));
 
-//********************baghi mandan ba khamosh shodan mobile******************************************
-        ComponentName receiver = new ComponentName(getApplicationContext(),Alarmm.class);
-        PackageManager pm = getApplication().getPackageManager();
+        }
+    });
+
+    //********************baghi mandan ba khamosh shodan mobile******************************************
+    ComponentName receiver = new ComponentName(getApplicationContext(), Alarmm.class);
+    PackageManager pm = getApplication().getPackageManager();
 
         pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
+    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+    PackageManager.DONT_KILL_APP);
 
 
 //************************************************************************************
-
     }
 
     public void onClickSetAlarm(View v) {
 
         nametemp = onvan.getText().toString();
-
+        db.deleteAlarm(MyAdapter._Id);
         db.addAlarm(_VAR, nametemp, TIME, reach, day);
 
-        Intent notificationIntent = new Intent(MainActivity.this, Alarmm.class);
+        Intent notificationIntent = new Intent(Edit_Alarm.this, Alarmm.class);
 
         notificationIntent.putExtra("onetime", Boolean.TRUE);
         pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, 0);
@@ -249,12 +299,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         //*******Calendar calendar=
 //todo set inxat repeat with Alarmmanger.rtc
-       //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, futureInMillis, 20000, pendingIntent);
-      //alarmManager.set(AlarmManager.RTC_WAKEUP,futureInMillis,pendingIntent);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,futureInMillis+5000,60000, pendingIntent);
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, futureInMillis, 20000, pendingIntent);
+        //alarmManager.set(AlarmManager.RTC_WAKEUP,futureInMillis,pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, futureInMillis + 5000, 60000, pendingIntent);
         // Log.w("realtime=",String.valueOf( SystemClock.elapsedRealtime()));
 
-        Intent mainmenu = new Intent(MainActivity.this, Activity_mainmeno.class);
+        Intent mainmenu = new Intent(Edit_Alarm.this, Activity_mainmeno.class);
         mainmenu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(mainmenu);
         finish();
@@ -284,7 +334,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
-
 // Start the initial runnable task by posting through the handler
 
 
